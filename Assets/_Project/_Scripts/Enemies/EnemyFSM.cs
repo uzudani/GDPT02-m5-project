@@ -21,7 +21,7 @@ public class EnemyFSM : MonoBehaviour
     protected EnemyState _currentState;
     protected float _currentSpeed;
 
-    private void Awake()
+    protected virtual void Awake()
     {
         _agent = GetComponent<NavMeshAgent>();
         _currentSpeed = _agent.speed;

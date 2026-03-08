@@ -28,8 +28,10 @@ public class EnemyAI : EnemyFSM
     private Quaternion _targetRotation;
     private int _currentPosition;
 
-    private void Start()
+    protected override void Awake()
     {
+        base.Awake(); // Awake padre prima
+
         _vision = GetComponent<EnemyVision>();
         _startPosition = transform.position;
         _startRotation = transform.rotation;

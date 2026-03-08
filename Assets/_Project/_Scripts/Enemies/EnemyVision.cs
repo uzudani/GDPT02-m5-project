@@ -7,16 +7,30 @@ public class EnemyVision : MonoBehaviour
     [Header("Settings")]
     [SerializeField] private Transform _visionOrigin;
     [SerializeField] private LineRenderer _visionLine;
+    [SerializeField] private LayerMask _obstacleMask;
+    [SerializeField] private float _coneUpdate = 0.05f;
     [SerializeField] private float _viewDistance = 3f;
     [SerializeField] private float _viewAngle = 45f;
     [SerializeField] private int _segments = 15;
 
-    public float ViewDistance => _viewDistance;
+    private float _coneTimer;
 
     private void Update()
     {
-        DrawVisionCone();
+        DrawConeTime();
     }
+
+    private void DrawConeTime() // Ottimizzazione
+    {
+        _coneTimer -= Time.deltaTime;
+
+        if (_coneTimer <= 0f)
+        {
+            DrawVisionCone();
+            _coneTimer = _coneUpdate;
+        }
+    }
+
 
     public bool CanSeePlayer(Transform player)
     {
@@ -27,7 +41,7 @@ public class EnemyVision : MonoBehaviour
 
         if (distance > _viewDistance || angle > _viewAngle) return false;
 
-        if (Physics.Raycast(_visionOrigin.position, directionPlayer, out RaycastHit hit, ViewDistance))
+        if (Physics.Raycast(_visionOrigin.position, directionPlayer, out RaycastHit hit, _viewDistance, _obstacleMask))
         {
             if (!hit.collider.CompareTag("Player")) return false;
         }
@@ -36,7 +50,7 @@ public class EnemyVision : MonoBehaviour
 
     }
 
-    public void DrawVisionCone()
+    private void DrawVisionCone()
     {
         _visionLine.positionCount = _segments + 1;
 

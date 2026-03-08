@@ -181,6 +181,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _visionOrigin: {fileID: 4857718621305367339}
   _visionLine: {fileID: 6350039692077868205}
+  _obstacleMask:
+    serializedVersion: 2
+    m_Bits: 256
+  _coneUpdate: 0.05
   _viewDistance: 3
   _viewAngle: 45
   _segments: 15
